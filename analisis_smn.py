@@ -1,0 +1,2 @@
+import sys
+from funciones_smn import leer_observaciones
