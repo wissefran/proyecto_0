@@ -14,7 +14,7 @@ def separar_viento(campo_viento: str) -> tuple:
 
 
 def parsear_fecha_hora(fecha: str, hora: str) -> datetime:
-    meses = {                 #establezco los meses y sus valores en un dict de meses
+    meses = {                 
         "enero": 1,
         "febrero": 2,
         "marzo": 3,
@@ -29,11 +29,11 @@ def parsear_fecha_hora(fecha: str, hora: str) -> datetime:
         "diciembre": 12
     }
 
-    dia, mes, anio = fecha.split("-") #separo las lineas en tres variables: "10-septiembre-2026"
+    dia, mes, anio = fecha.split("-")  
 
     fecha_hora = datetime(
         int(anio),
-        meses[mes.lower()], #convierto los meses en mayuscula para reconocer su numeracion
+        meses[mes.lower()],  
         int(dia),
         int(hora[:2]),   
         int(hora[3:])
