@@ -61,3 +61,50 @@ def leer_observaciones(ruta: str) -> dict:
 def cantidad_ciudades(observaciones: dict) -> int:
     return len(observaciones)
 
+def cantidad_ciudades_completas(observaciones: dict) -> int:
+    cantidad = 0
+
+    for datos in observaciones.values():
+        completa = True
+
+        for dato in datos:
+            if dato == "No se calcula":
+                completa = False
+                break
+
+def top_n_ciudades(observaciones: dict, campo: str, n: int, descendente: bool = True) -> list:
+    posiciones = {
+        "temperatura": 4,
+        "humedad": 6,
+        "presion": 8
+    }
+
+    lista_ordenada = []
+
+    for ciudad, datos in observaciones.items():
+        if campo == "velocidad_viento":
+            valor = datos[7][1]
+        elif campo in posiciones:
+            valor = datos[posiciones[campo]]
+        else:
+            continue
+
+        if valor is not None and valor != "No se calcula":
+            valor = float(valor)
+            lista_ordenada.append((valor, ciudad))
+
+    lista_ordenada.sort(reverse=descendente)
+
+    resultado = []
+
+    for valor, ciudad in lista_ordenada[:n]:
+        resultado.append((ciudad, valor))
+
+    return resultado
+
+            
+
+        if completa:
+            cantidad += 1
+
+    return cantidad
