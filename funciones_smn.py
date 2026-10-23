@@ -61,3 +61,18 @@ def leer_observaciones(ruta: str) -> dict:
 def cantidad_ciudades(observaciones: dict) -> int:
     return len(observaciones)
 
+def cantidad_ciudades_completas(observaciones: dict) -> int:
+    cantidad = 0
+
+    for datos in observaciones.values():
+        completa = True
+
+        for dato in datos:
+            if dato == "No se calcula":
+                completa = False
+                break
+
+        if completa:
+            cantidad += 1
+
+    return cantidad
