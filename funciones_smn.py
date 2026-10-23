@@ -54,6 +54,10 @@ def leer_observaciones(ruta: str) -> dict:
             datos = campos[1:] 
             viento = separar_viento(campos[8])
             datos[7] = viento
-            observaciones[ciudad] = viento 
+            observaciones[ciudad] = datos
             
         return observaciones    
+
+def cantidad_ciudades(observaciones: dict) -> int:
+    return len(observaciones)
+
