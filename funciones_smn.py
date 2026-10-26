@@ -51,14 +51,15 @@ def leer_observaciones(ruta: str) -> dict:
         for linea in f:
             campos = linea.strip().split(";")
 
-            if campos() == 10:
+            if len(campos) == 10:
                ciudad = campos[0].strip()
                datos = campos[1:] 
                viento = separar_viento(campos[8])
                datos[7] = viento
                observaciones[ciudad] = datos
             
-        return observaciones    
+    return observaciones    
+
 
 def cantidad_ciudades(observaciones: dict) -> int:
     return len(observaciones)
@@ -73,6 +74,11 @@ def cantidad_ciudades_completas(observaciones: dict) -> int:
             if dato == "No se calcula":
                 completa = False
                 break
+
+        if completa:
+            cantidad += 1
+
+    return cantidad
 
 def top_n_ciudades(observaciones: dict, campo: str, n: int, descendente: bool = True) -> list:
     posiciones = {
@@ -91,10 +97,13 @@ def top_n_ciudades(observaciones: dict, campo: str, n: int, descendente: bool = 
         else:
             continue
 
-        if valor is not None and valor != "No se calcula":
-            valor = float(valor)
-            lista_ordenada.append((valor, ciudad))
+        if valor is not None and valor != "No se calcula" :
+          if campo == "presion":
+             valor = valor.replace("/", "").strip()
 
+          valor = float(valor)
+          lista_ordenada.append((valor, ciudad))
+    
     lista_ordenada.sort(reverse=descendente)
 
     resultado = []
@@ -103,13 +112,6 @@ def top_n_ciudades(observaciones: dict, campo: str, n: int, descendente: bool = 
         resultado.append((ciudad, valor))
 
     return resultado
-
-            
-
-        if completa:
-            cantidad += 1
-
-    return cantidad
 
 def horarios_reportados(observaciones: dict) -> list:
     horarios = []
@@ -121,3 +123,33 @@ def horarios_reportados(observaciones: dict) -> list:
 
     horarios.sort()
     return horarios
+
+def mostrar_resumen(observaciones: dict) -> None:
+    print("===== RESUMEN DE OBSERVACIONES METEOROLÓGICAS =====")
+
+    print("\nCantidad de ciudades:", cantidad_ciudades(observaciones))
+
+    print("Cantidad de ciudades completas:", cantidad_ciudades_completas(observaciones))
+
+    print("\nHorarios reportados:")
+    print(horarios_reportados(observaciones))
+
+    print("\n--- 5 ciudades con mayor temperatura ---")
+    resultado = top_n_ciudades(observaciones, "temperatura", 5)
+    for ciudad, valor in resultado:
+        print(ciudad, "-", valor)
+
+    print("\n--- 5 ciudades con mayor humedad ---")
+    resultado = top_n_ciudades(observaciones, "humedad", 5)
+    for ciudad, valor in resultado:
+        print(ciudad, "-", valor)
+
+    print("\n--- 5 ciudades con mayor presión ---")
+    resultado = top_n_ciudades(observaciones, "presion", 5)
+    for ciudad, valor in resultado:
+        print(ciudad, "-", valor)
+
+    print("\n--- 5 ciudades con mayor velocidad del viento ---")
+    resultado = top_n_ciudades(observaciones, "velocidad_viento", 5)
+    for ciudad, valor in resultado:
+        print(ciudad, "-", valor)
