@@ -45,8 +45,14 @@ def parsear_fecha_hora(fecha: str, hora: str) -> datetime:
 def leer_observaciones(ruta: str) -> dict:
     
     observaciones = dict()
+    
+    if "observaciones1_smn.txt" in ruta:
+         codificacion = "utf-8"
+    else:
+         codificacion = "iso-8859-1"
 
-    with open(ruta, "r", encoding="cp1252") as f:
+
+    with open(ruta, "r", encoding=codificacion) as f:
 
         for linea in f:
             campos = linea.strip().split(";")
