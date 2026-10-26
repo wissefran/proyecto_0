@@ -50,11 +50,13 @@ def leer_observaciones(ruta: str) -> dict:
 
         for linea in f:
             campos = linea.strip().split(";")
-            ciudad = campos[0].strip()
-            datos = campos[1:] 
-            viento = separar_viento(campos[8])
-            datos[7] = viento
-            observaciones[ciudad] = datos
+
+            if campos() == 10:
+               ciudad = campos[0].strip()
+               datos = campos[1:] 
+               viento = separar_viento(campos[8])
+               datos[7] = viento
+               observaciones[ciudad] = datos
             
         return observaciones    
 
@@ -108,3 +110,14 @@ def top_n_ciudades(observaciones: dict, campo: str, n: int, descendente: bool = 
             cantidad += 1
 
     return cantidad
+
+def horarios_reportados(observaciones: dict) -> list:
+    horarios = []
+    for datos in observaciones.values():
+        hora = datos[1]
+
+        if hora not in horarios:
+            horarios.append(hora)
+
+    horarios.sort()
+    return horarios
